@@ -40,6 +40,7 @@ const setGoal = asyncHandler(async (req, res) => {
  * @route PUT /api/goals
  * @access PRIVATE
  */
+
 const updateGoal = asyncHandler(async (req, res) => {
   const goal = await Goal.findById(req.params.id);
   if (!goal) {
