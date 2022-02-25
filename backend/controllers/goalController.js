@@ -10,7 +10,7 @@ const Goal = require("../models/goalModel");
  */
 const getGoals = asyncHandler(async (req, res) => {
   const goals = await Goal.find({ user: req.user.id });
-  res.status(200).json({ status: 200, goals });
+  res.status(200).json(goals);
 });
 
 /**
@@ -31,7 +31,7 @@ const setGoal = asyncHandler(async (req, res) => {
     user: req.user.id,
   });
 
-  res.status(200).json({ status: 200, goal });
+  res.status(200).json(goal);
 });
 
 /**
@@ -44,7 +44,8 @@ const setGoal = asyncHandler(async (req, res) => {
 
 const updateGoal = asyncHandler(async (req, res) => {
   const goal = await Goal.findById(req.params.id);
-  if (!goal) {
+
+  if (!req.user) {
     res.status(400);
     throw new Error("Goal not found!!");
   }
@@ -55,7 +56,7 @@ const updateGoal = asyncHandler(async (req, res) => {
   const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
-  res.status(200).json({ status: 200, updatedGoal });
+  res.status(200).json(updateGoal);
 });
 
 /**
@@ -78,7 +79,7 @@ const deleteGoal = asyncHandler(async (req, res) => {
   }
   await Goal.remove(goal);
 
-  res.status(200).json({ status: 200, deletedGoal: goal });
+  res.status(200).json(goal);
 });
 
 module.exports = {

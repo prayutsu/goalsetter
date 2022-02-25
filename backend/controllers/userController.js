@@ -83,13 +83,10 @@ const loginUser = asyncHandler(async (req, res) => {
  * @access Private
  */
 const fetchUserDetails = asyncHandler(async (req, res) => {
-  const { _id, name, email } = await User.findById(req.user._id);
   res.json({
     status: "Sucess",
     message: "Fetched user details.",
-    id: _id,
-    email: email,
-    name: name,
+    user: req.user,
   });
 });
 
