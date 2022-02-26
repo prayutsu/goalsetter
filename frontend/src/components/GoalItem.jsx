@@ -1,8 +1,10 @@
 import { useDispatch } from "react-redux";
-import { deleteGoal, updateGoal } from "../features/goals/goalSlice";
+import { deleteGoal } from "../features/goals/goalSlice";
+import { showModal } from "../features/modal/updateModalSlice";
 
 const GoalItem = (props) => {
   const dispatch = useDispatch();
+
   return (
     <div className="goal">
       <div>{new Date(props.goal.createdAt).toLocaleString("en-IN")}</div>
@@ -18,9 +20,7 @@ const GoalItem = (props) => {
         </button>
         <button
           className="upd"
-          onClick={() => {
-            dispatch(updateGoal(props.goal._id));
-          }}
+          onClick={() => dispatch(showModal(props.goal.text))}
         >
           Edit
         </button>

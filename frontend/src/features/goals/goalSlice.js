@@ -69,10 +69,13 @@ export const deleteGoal = createAsyncThunk(
 // Update a goal.
 export const updateGoal = createAsyncThunk(
   "goals/update",
-  async (id, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
+      console.log("Goal update in goalSlice was called!");
       const token = thunkAPI.getState().auth.user.token;
-      return await goalService.updateGoal(id, token);
+      const goal = await goalService.updateGoal(data.id, data.text, token);
+      console.log(goal);
+      return goal;
     } catch (error) {
       const message =
         (error.response &&

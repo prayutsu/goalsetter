@@ -3,20 +3,22 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import GoalForm from "../components/GoalForm";
 import Spinner from "../components/Spinner";
-import { getGoals, reset } from "../features/goals/goalSlice";
+import { getGoals } from "../features/goals/goalSlice";
 import GoalItem from "../components/GoalItem";
+import Modal from "../components/Modal";
 
 function Dashboard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
-  const { goals, isLoading, isSuccess, isError, message } = useSelector(
+  const { goals, isLoading, isError, message } = useSelector(
     (state) => state.goals
   );
+  const { visible, text } = useSelector((state) => state.modal);
 
   useEffect(() => {
-    if (!isError) {
+    if (isError) {
       console.log(message);
     }
 
@@ -24,10 +26,6 @@ function Dashboard() {
       navigate("/login");
     }
     dispatch(getGoals());
-
-    return () => {
-      dispatch(reset());
-    };
   }, [user, navigate, isError, message, dispatch]);
 
   if (isLoading) {
@@ -46,7 +44,16 @@ function Dashboard() {
         {goals.length > 0 ? (
           <div className="goals">
             {goals.map((goal) => {
-              return <GoalItem key={goal._id} goal={goal}></GoalItem>;
+              return (
+                <>
+                  <GoalItem key={goal._id} goal={goal}></GoalItem>
+                  {visible ? (
+                    <Modal text={text} visible={visible} id={goal._id} />
+                  ) : (
+                    <></>
+                  )}
+                </>
+              );
             })}
           </div>
         ) : (

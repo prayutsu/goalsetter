@@ -36,18 +36,22 @@ const deleteGoal = async (id, token) => {
   };
 
   const response = await axios.delete(`${API_URL}${id}`, config);
+  console.log(response.data, "\ndelete");
   return response.data;
 };
 
 // Updates a goal.
-const updateGoal = async (id, token) => {
+const updateGoal = async (id, text, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
-  const response = await axios.put(`${API_URL}${id}`, config);
+  console.log("Update is called in goalService");
+
+  const response = await axios.put(`${API_URL}${id}`, { text }, config);
+  console.log(response.data, "front");
   return response.data;
 };
 
