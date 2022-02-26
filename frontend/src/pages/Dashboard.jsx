@@ -15,7 +15,7 @@ function Dashboard() {
   const { goals, isLoading, isError, message } = useSelector(
     (state) => state.goals
   );
-  const { visible, text } = useSelector((state) => state.modal);
+  const { visible, text, _id } = useSelector((state) => state.modal);
 
   useEffect(() => {
     if (isError) {
@@ -39,22 +39,13 @@ function Dashboard() {
         <p>Goals Dashboard</p>
       </section>
       <GoalForm />
-
       <section className="content">
         {goals.length > 0 ? (
           <div className="goals">
             {goals.map((goal) => {
-              return (
-                <>
-                  <GoalItem key={goal._id} goal={goal}></GoalItem>
-                  {visible ? (
-                    <Modal text={text} visible={visible} id={goal._id} />
-                  ) : (
-                    <></>
-                  )}
-                </>
-              );
+              return <GoalItem key={goal._id} goal={goal}></GoalItem>;
             })}
+            {visible ? <Modal text={text} visible={visible} id={_id} /> : <></>}
           </div>
         ) : (
           <h3>You haven't set any goals.</h3>

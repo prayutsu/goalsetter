@@ -20,7 +20,10 @@ const GoalItem = (props) => {
         </button>
         <button
           className="upd"
-          onClick={() => dispatch(showModal(props.goal.text))}
+          onClick={() => dispatch(showModal({
+            text: props.goal.text,
+            _id: props.goal._id
+          }))}
         >
           Edit
         </button>
